@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BookOpen, ShieldCheck, Clock, Users, Sparkles, CheckCircle2 } from 'lucide-react';
+import { BookOpen, ShieldCheck, Clock, Users, CheckCircle2 } from 'lucide-react';
 
 interface ConsentScreenProps {
   onStart: () => void;
@@ -21,7 +21,6 @@ export const ConsentScreen: React.FC<ConsentScreenProps> = ({
       {/* Header */}
       <header className="pt-4 sm:pt-6 text-center space-y-3">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EFE9DF] text-[#6B5E51] text-xs sm:text-sm font-medium tracking-wide">
-          <Sparkles className="w-3.5 h-3.5 text-[#A46338]" />
           <span>наукове дослідження (МАН)</span>
         </div>
         <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl text-[#1E1A17] leading-tight font-bold tracking-tight">

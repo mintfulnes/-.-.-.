@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Phase2Data } from '../types';
-import { BookOpen, Send, Sparkles, HelpCircle, CheckCircle2 } from 'lucide-react';
+import { BookOpen, Send, HelpCircle, CheckCircle2 } from 'lucide-react';
 
 interface Phase2ScreenProps {
   onSubmit: (data: Phase2Data) => Promise<void>;
@@ -43,7 +43,6 @@ export const Phase2Screen: React.FC<Phase2ScreenProps> = ({ onSubmit, isSubmitti
         {/* Header */}
         <div className="space-y-2">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAF3EC] text-[#8F4F24] text-xs font-semibold uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5" />
             <span>2-й етап</span>
           </div>
           <h1 className="font-serif text-2xl sm:text-3xl font-bold text-[#1E1A17]">
@@ -61,7 +60,7 @@ export const Phase2Screen: React.FC<Phase2ScreenProps> = ({ onSubmit, isSubmitti
               <span className="w-5 h-5 rounded-full bg-[#8F4F24] text-white text-xs font-bold flex items-center justify-center shrink-0">
                 1
               </span>
-              <span>Вільне пригадування: що вам запам&apos;яталося найбільше? *</span>
+              <span>Вільне пригадування: що вам запам&apos;яталося найбільше?</span>
             </label>
             <textarea
               value={freeRecallText}
@@ -78,7 +77,7 @@ export const Phase2Screen: React.FC<Phase2ScreenProps> = ({ onSubmit, isSubmitti
               <span className="w-5 h-5 rounded-full bg-[#8F4F24] text-white text-xs font-bold flex items-center justify-center shrink-0">
                 2
               </span>
-              <span>Що символізував віз сіна на картині Ієроніма Босха? *</span>
+              <span>Що символізував віз сіна на картині Ієроніма Босха?</span>
             </label>
             <input
               type="text"
@@ -95,7 +94,7 @@ export const Phase2Screen: React.FC<Phase2ScreenProps> = ({ onSubmit, isSubmitti
               <span className="w-5 h-5 rounded-full bg-[#8F4F24] text-white text-xs font-bold flex items-center justify-center shrink-0">
                 3
               </span>
-              <span>Які враження справив на вас формат показу творів? *</span>
+              <span>Які враження справив на вас формат показу творів?</span>
             </label>
             <input
               type="text"

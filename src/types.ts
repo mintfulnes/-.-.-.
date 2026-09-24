@@ -15,7 +15,7 @@ export interface Artwork {
   genre: string;
 }
 
-export type SurveyAnswers = Record<string, string>;
+export type SurveyAnswers = Record<string, string | string[]>;
 
 export interface SessionItemMetric {
   dwellMs: number;

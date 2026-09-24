@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { SessionData } from '../types';
-import { CheckCircle2, Heart, Clock, Sparkles } from 'lucide-react';
+import { CheckCircle2, Heart, Clock } from 'lucide-react';
 
 interface CompletionScreenProps {
   session: SessionData;
@@ -31,7 +31,6 @@ export const CompletionScreen: React.FC<CompletionScreenProps> = ({
 
         <div className="space-y-2">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAF3EC] text-[#8F4F24] text-xs font-semibold uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5" />
             <span>Дослідження успішно пройдено</span>
           </div>
           <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[#1E1A17] pt-1">

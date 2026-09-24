@@ -186,7 +186,10 @@ export const ResearcherModal: React.FC<ResearcherModalProps> = ({
         formatCell(s.phase1CompletedAt || 'Не завершено'),
         formatCell(Math.round(totalDwellMs / 1000)),
         formatCell(likedCount),
-        ...SURVEY_QUESTIONS.map((q) => formatCell(survey[q.id] || '')),
+        ...SURVEY_QUESTIONS.map((q) => {
+          const val = survey[q.id];
+          return formatCell(Array.isArray(val) ? val.join(', ') : (val || ''));
+        }),
         formatCell(Math.round((items.proverbs?.dwellMs || 0) / 1000)),
         formatCell(items.proverbs?.liked ? 'ТАК' : 'НІ'),
         formatCell(items.proverbs?.learnMoreClicked ? 'ТАК' : 'НІ'),
@@ -614,7 +617,20 @@ export const ResearcherModal: React.FC<ResearcherModalProps> = ({
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
                   {SURVEY_QUESTIONS.map((q) => {
                     const ans = selectedSession.survey?.[q.id];
-                    const chosenOption = q.options.find((o) => o.value === ans);
+                    let displayAns = '—';
+                    if (ans) {
+                      if (Array.isArray(ans)) {
+                        displayAns = ans
+                          .map((val) => {
+                            const opt = q.options.find((o) => o.value === val);
+                            return `${val}) ${opt?.label || val}`;
+                          })
+                          .join('; ');
+                      } else {
+                        const chosenOption = q.options.find((o) => o.value === ans);
+                        displayAns = `${ans}) ${chosenOption?.label || ''}`;
+                      }
+                    }
                     return (
                       <div
                         key={q.id}
@@ -624,7 +640,7 @@ export const ResearcherModal: React.FC<ResearcherModalProps> = ({
                           №{q.number}. {q.text}
                         </div>
                         <div className="font-bold text-[#8F4F24] text-[11px]">
-                          {ans ? `${ans}) ${chosenOption?.label || ''}` : '—'}
+                          {displayAns}
                         </div>
                       </div>
                     );

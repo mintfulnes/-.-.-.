@@ -7,8 +7,9 @@ export interface Question {
   id: string;
   number: number;
   text: string;
-  type: 'single' | 'scale';
+  type: 'single' | 'multiple' | 'scale';
   options: QuestionOption[];
+  isMultiple?: boolean;
 }
 
 export const SURVEY_QUESTIONS: Question[] = [
@@ -41,7 +42,8 @@ export const SURVEY_QUESTIONS: Question[] = [
     id: 'q3',
     number: 3,
     text: 'Який вид мистецтва привертає вашу увагу найбільше?',
-    type: 'single',
+    type: 'multiple',
+    isMultiple: true,
     options: [
       { value: 'а', label: 'живопис' },
       { value: 'б', label: 'фотографія' },
@@ -56,7 +58,8 @@ export const SURVEY_QUESTIONS: Question[] = [
     id: 'q4',
     number: 4,
     text: 'Що найчастіше змушує вас зупинитися на мистецькій публікації?',
-    type: 'single',
+    type: 'multiple',
+    isMultiple: true,
     options: [
       { value: 'а', label: 'яскраве зображення' },
       { value: 'б', label: 'незвичайний сюжет' },

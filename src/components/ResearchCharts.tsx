@@ -78,8 +78,12 @@ export const ResearchCharts: React.FC<ResearchChartsProps> = ({ sessions }) => {
     const question = SURVEY_QUESTIONS.find((q) => q.id === questionId);
     if (!question) return [];
     return question.options.map((opt) => {
-      const count = sessions.filter((s) => s.survey?.[questionId] === opt.value).length;
-      const pct = Math.round((count / sessions.length) * 100) || 0;
+      const count = sessions.filter((s) => {
+        const val = s.survey?.[questionId];
+        if (Array.isArray(val)) return val.includes(opt.value);
+        return val === opt.value;
+      }).length;
+      const pct = sessions.length > 0 ? Math.round((count / sessions.length) * 100) : 0;
       return {
         label: opt.label,
         value: opt.value,
@@ -295,7 +299,7 @@ export const ResearchCharts: React.FC<ResearchChartsProps> = ({ sessions }) => {
             <div className="grid grid-cols-5 gap-2 pt-1">
               {getSurveyDistribution('q7').map((item) => (
                 <div key={item.value} className="p-2 rounded-xl bg-[#FAF8F5] border border-[#ECE5DA] text-center">
-                  <div className="font-bold text-sm text-[#8F4F24]">{item.value} ★</div>
+                  <div className="font-bold text-sm text-[#8F4F24]">{item.value}</div>
                   <div className="text-xs font-semibold text-[#1E1A17] mt-0.5">{item.count}</div>
                   <div className="text-[10px] text-[#8C7E70]">{item.pct}%</div>
                 </div>

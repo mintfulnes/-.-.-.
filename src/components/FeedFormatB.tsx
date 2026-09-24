@@ -8,7 +8,6 @@ import {
   Info,
   ArrowRight,
   X,
-  Sparkles,
   Play,
   Pause
 } from 'lucide-react';
@@ -227,27 +226,21 @@ export const FeedFormatB: React.FC<FeedFormatBProps> = ({
       ref={containerRef}
       className="h-[100dvh] w-full overflow-y-scroll snap-y snap-mandatory bg-black text-white no-scrollbar select-none"
     >
-      {/* Sound Toggle */}
-      <div className="fixed top-4 right-4 z-40">
+      {/* Sound Toggle (30% smaller, compact & elegant) */}
+      <div className="fixed top-3 right-3 sm:top-4 sm:right-4 z-40">
         <button
           type="button"
           onClick={() => setIsMuted((prev) => !prev)}
-          className="bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/20 text-white p-2.5 sm:p-3 rounded-full shadow-lg transition-transform active:scale-90 cursor-pointer flex items-center gap-2"
+          className="w-8 h-8 sm:w-9 sm:h-9 bg-black/50 hover:bg-black/75 backdrop-blur-md border border-white/20 text-white rounded-full shadow-md transition-transform active:scale-90 cursor-pointer flex items-center justify-center"
           aria-label={isMuted ? 'Увімкнути звук' : 'Вимкнути звук'}
+          title={isMuted ? 'Увімкнути звук' : 'Вимкнути звук'}
         >
-          {isMuted ? <VolumeX className="w-5 h-5 text-white/90" /> : <Volume2 className="w-5 h-5 text-emerald-400" />}
-          <span className="text-xs font-semibold pr-1 hidden sm:inline">
-            {isMuted ? 'Без звуку' : 'Звук увімкнено'}
-          </span>
+          {isMuted ? (
+            <VolumeX className="w-4 h-4 text-white/80" />
+          ) : (
+            <Volume2 className="w-4 h-4 text-emerald-400" />
+          )}
         </button>
-      </div>
-
-      {/* Format Indicator */}
-      <div className="fixed top-4 left-4 z-40 pointer-events-none">
-        <div className="bg-black/50 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-full flex items-center gap-1.5 text-xs font-medium text-white/90">
-          <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-          <span>Формат стрічки Reels</span>
-        </div>
       </div>
 
       {/* Artwork Slides */}
@@ -274,38 +267,21 @@ export const FeedFormatB: React.FC<FeedFormatBProps> = ({
           >
             {/* Visual presentation */}
             {!hasVideoError ? (
-              <div className="relative w-full h-full flex items-center justify-center">
-                <video
-                  ref={(el) => {
-                    videoRefs.current[id] = el;
-                  }}
-                  src={artwork.videoSrc}
-                  playsInline
-                  loop
-                  autoPlay
-                  muted={isMuted}
-                  preload="auto"
-                  onTimeUpdate={(e) => handleTimeUpdate(id, e)}
-                  onPlay={() => setIsPlayingMap((prev) => ({ ...prev, [id]: true }))}
-                  onPause={() => setIsPlayingMap((prev) => ({ ...prev, [id]: false }))}
-                  onError={(e) => {
-                    console.warn('Video error for artwork:', id, e);
-                    setVideoErrors((prev) => ({ ...prev, [id]: true }));
-                  }}
-                  className="w-full h-full object-cover sm:object-contain sm:max-w-md mx-auto"
-                >
-                  <source src={artwork.videoSrc} type="video/mp4" />
-                </video>
-
-                {/* Center Play Icon when paused */}
-                {!isPlaying && (
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="w-16 h-16 rounded-full bg-black/50 backdrop-blur-xs flex items-center justify-center text-white/90 shadow-2xl">
-                      <Play className="w-8 h-8 fill-white ml-1" />
-                    </div>
-                  </div>
-                )}
-              </div>
+              <video
+                ref={(el) => {
+                  videoRefs.current[id] = el;
+                }}
+                src={artwork.videoSrc}
+                playsInline
+                loop
+                autoPlay
+                muted={isMuted}
+                onTimeUpdate={(e) => handleTimeUpdate(id, e)}
+                onError={() => {
+                  setVideoErrors((prev) => ({ ...prev, [id]: true }));
+                }}
+                className="w-full h-full object-cover sm:object-contain sm:max-w-md mx-auto"
+              />
             ) : (
               /* Polished cinematic Reels image presentation with dynamic motion */
               <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
@@ -317,8 +293,6 @@ export const FeedFormatB: React.FC<FeedFormatBProps> = ({
                     const target = e.currentTarget;
                     if (target.src !== artwork.fallbackImage) {
                       target.src = artwork.fallbackImage;
-                    } else if (artwork.remoteFallback && target.src !== artwork.remoteFallback) {
-                      target.src = artwork.remoteFallback;
                     }
                   }}
                   className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-125"
@@ -335,8 +309,6 @@ export const FeedFormatB: React.FC<FeedFormatBProps> = ({
                         const target = e.currentTarget;
                         if (target.src !== artwork.fallbackImage) {
                           target.src = artwork.fallbackImage;
-                        } else if (artwork.remoteFallback && target.src !== artwork.remoteFallback) {
-                          target.src = artwork.remoteFallback;
                         }
                       }}
                       className={`w-full h-full object-contain transition-transform duration-1000 ease-out ${
@@ -348,64 +320,61 @@ export const FeedFormatB: React.FC<FeedFormatBProps> = ({
               </div>
             )}
 
-            {/* Gradient Overlays */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/85 pointer-events-none" />
+            {/* Subtle bottom gradient that doesn't darken the video */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
 
-            {/* Bottom-Left Information Overlay */}
+            {/* Bottom-Left Information Overlay (Compact & Non-intrusive) */}
             <div
-              className="absolute bottom-6 left-4 right-20 sm:right-24 z-30 space-y-1.5 pointer-events-auto"
+              className="absolute bottom-3.5 left-3 sm:left-4 right-16 sm:right-20 z-30 space-y-1 pointer-events-auto text-left"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-amber-500 to-rose-600 flex items-center justify-center text-xs font-bold text-white shadow-md">
+              <div className="flex items-center gap-1.5">
+                <div className="w-5 h-5 rounded-full bg-gradient-to-br from-amber-500 to-rose-600 flex items-center justify-center text-[10px] font-bold text-white shadow-xs shrink-0">
                   {artwork.author.charAt(0)}
                 </div>
-                <div className="flex flex-col">
-                  <span className="text-xs sm:text-sm font-semibold text-white drop-shadow">
-                    {artwork.author}
-                  </span>
-                  <span className="text-[10px] text-white/70">
-                    {artwork.year} • {artwork.genre}
-                  </span>
-                </div>
+                <span className="text-xs font-semibold text-white drop-shadow truncate max-w-[180px] sm:max-w-xs">
+                  {artwork.author}
+                </span>
+                <span className="text-[10px] text-white/70 drop-shadow font-medium">
+                  • {artwork.year}
+                </span>
               </div>
 
-              <h2 className="font-serif text-base sm:text-lg font-bold text-white drop-shadow leading-tight">
+              <h2 className="font-serif text-sm sm:text-base font-bold text-white drop-shadow leading-tight truncate">
                 {artwork.title}
               </h2>
-
-              <p className="text-xs text-white/85 line-clamp-2 drop-shadow leading-relaxed">
-                {artwork.description}
-              </p>
 
               <button
                 type="button"
                 onClick={() => handleOpenLearnMore(artwork)}
-                className="inline-flex items-center gap-1 text-xs text-amber-300 hover:text-amber-200 font-medium underline underline-offset-4 cursor-pointer pt-0.5"
+                className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-black/40 hover:bg-black/60 border border-white/20 text-[11px] text-white/90 backdrop-blur-xs transition-colors cursor-pointer group shadow-xs mt-0.5"
               >
-                Читати детальний опис
+                <span className="text-white/75">{artwork.genre}</span>
+                <span className="text-amber-300 font-semibold group-hover:underline">
+                  • Опис →
+                </span>
               </button>
             </div>
 
             {/* Right Action Bar */}
             <div
-              className="absolute bottom-8 right-3 sm:right-5 z-30 flex flex-col items-center gap-4 pointer-events-auto"
+              className="absolute bottom-4 right-2.5 sm:right-4 z-30 flex flex-col items-center gap-3 pointer-events-auto"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Like Button */}
               <button
                 type="button"
                 onClick={() => handleToggleLike(id)}
-                className="flex flex-col items-center gap-1 group cursor-pointer"
+                className="flex flex-col items-center gap-0.5 group cursor-pointer"
               >
                 <div
-                  className={`w-11 h-11 rounded-full flex items-center justify-center backdrop-blur-md transition-all duration-200 shadow-lg ${
+                  className={`w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-md transition-all duration-200 shadow-lg ${
                     isLiked
-                      ? 'bg-rose-600 text-white scale-110 ring-4 ring-rose-500/30'
+                      ? 'bg-rose-600 text-white scale-110 ring-2 ring-rose-500/40'
                       : 'bg-black/50 text-white hover:bg-black/70 border border-white/20'
                   }`}
                 >
-                  <Heart className={`w-5 h-5 ${isLiked ? 'fill-white' : ''}`} />
+                  <Heart className={`w-4 h-4 ${isLiked ? 'fill-white' : ''}`} />
                 </div>
                 <span className="text-[10px] font-semibold text-white drop-shadow">
                   {isLiked ? '1' : 'Лайк'}
@@ -416,17 +385,17 @@ export const FeedFormatB: React.FC<FeedFormatBProps> = ({
               <button
                 type="button"
                 onClick={() => handleOpenLearnMore(artwork)}
-                className="flex flex-col items-center gap-1 group cursor-pointer"
+                className="flex flex-col items-center gap-0.5 group cursor-pointer"
               >
-                <div className="w-11 h-11 rounded-full bg-black/50 hover:bg-black/70 border border-white/20 flex items-center justify-center text-white backdrop-blur-md transition-all shadow-lg active:scale-95">
-                  <Info className="w-5 h-5 text-amber-300" />
+                <div className="w-10 h-10 rounded-full bg-black/50 hover:bg-black/70 border border-white/20 flex items-center justify-center text-white backdrop-blur-md transition-all shadow-lg active:scale-95">
+                  <Info className="w-4 h-4 text-amber-300" />
                 </div>
                 <span className="text-[10px] font-medium text-white/90 drop-shadow">
-                  Більше
+                  Опис
                 </span>
               </button>
 
-              <div className="text-[10px] text-white/70 font-mono bg-black/40 px-2 py-0.5 rounded-full border border-white/10">
+              <div className="text-[10px] text-white/70 font-mono bg-black/40 px-1.5 py-0.5 rounded-full border border-white/10">
                 {index + 1}/4
               </div>
             </div>
@@ -506,8 +475,7 @@ export const FeedFormatB: React.FC<FeedFormatBProps> = ({
             </div>
 
             <div className="space-y-1">
-              <h4 className="text-[11px] font-semibold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5" />
+              <h4 className="text-[11px] font-semibold uppercase tracking-wider text-amber-400">
                 Дізнатись більше
               </h4>
               <p className="text-xs sm:text-sm text-white/90 leading-relaxed bg-amber-500/10 p-3 rounded-xl border border-amber-500/20">
