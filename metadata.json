@@ -1,0 +1,6 @@
+{
+  "name": "Мистецтво в соцмережах: наукове дослідження",
+  "description": "Веб-застосунок для наукового дослідження сприйняття та популяризації мистецтва в соціальних мережах серед підлітків 14–17 років.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

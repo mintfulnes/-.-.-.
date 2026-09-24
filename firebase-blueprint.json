@@ -1,0 +1,82 @@
+{
+  "entities": {
+    "SessionItem": {
+      "title": "Session Item Interaction",
+      "description": "Interaction statistics for an artwork within a research session",
+      "type": "object",
+      "properties": {
+        "dwellMs": {
+          "type": "number",
+          "description": "Cumulative time in milliseconds the artwork was in the viewport"
+        },
+        "watchCompletion": {
+          "type": "number",
+          "description": "Max percentage (0-100 or ratio) of the video watched"
+        },
+        "liked": {
+          "type": "boolean",
+          "description": "Whether the artwork was liked by the participant"
+        },
+        "likedAt": {
+          "type": "string",
+          "description": "ISO timestamp when the like button was first clicked"
+        },
+        "learnMoreClicked": {
+          "type": "boolean",
+          "description": "Whether the Learn More button was clicked"
+        },
+        "learnMoreClickedAt": {
+          "type": "string",
+          "description": "ISO timestamp when Learn More was first clicked"
+        }
+      }
+    },
+    "Session": {
+      "title": "Research Session",
+      "description": "Anonymous participant session data for high school research study",
+      "type": "object",
+      "properties": {
+        "group": {
+          "type": "string",
+          "enum": ["A", "B"],
+          "description": "Experimental group assigned (A: Museum cards, B: Reels/AI video)"
+        },
+        "order": {
+          "type": "array",
+          "description": "Randomized order of artwork IDs displayed to the user"
+        },
+        "survey": {
+          "type": "object",
+          "description": "10-question pre-feed survey answers"
+        },
+        "startedAt": {
+          "type": "string",
+          "description": "ISO timestamp when session was initialized"
+        },
+        "device": {
+          "type": "string",
+          "description": "Browser userAgent or device info"
+        },
+        "items": {
+          "type": "object",
+          "description": "Map of artwork ID to SessionItem interaction data"
+        },
+        "phase1CompletedAt": {
+          "type": "string",
+          "description": "ISO timestamp when phase 1 feed was completed"
+        },
+        "phase2": {
+          "type": "object",
+          "description": "Optional phase 2 recall responses"
+        }
+      },
+      "required": ["group", "order", "survey", "startedAt", "device", "items"]
+    }
+  },
+  "firestore": {
+    "/sessions/{sessionId}": {
+      "schema": "Session",
+      "description": "Anonymous participant experimental sessions"
+    }
+  }
+}

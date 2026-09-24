@@ -1,0 +1,47 @@
+export type ArtworkId = 'proverbs' | 'haywain' | 'anatomy' | 'sea';
+
+export interface Artwork {
+  id: ArtworkId;
+  title: string;
+  author: string;
+  year: string;
+  description: string;
+  learnMore: string;
+  imageSrc: string;
+  videoSrc: string;
+  fallbackImage: string;
+  aspectRatio?: string;
+  genre: string;
+}
+
+export type SurveyAnswers = Record<string, string>;
+
+export interface SessionItemMetric {
+  dwellMs: number;
+  watchCompletion: number;
+  liked: boolean;
+  likedAt: string | null;
+  learnMoreClicked: boolean;
+  learnMoreClickedAt: string | null;
+}
+
+export interface Phase2Data {
+  completedAt: string;
+  freeRecall: string;
+  responses: Record<string, string>;
+}
+
+export interface SessionData {
+  code: string;
+  group: 'A' | 'B';
+  order: ArtworkId[];
+  survey: SurveyAnswers;
+  startedAt: string;
+  device: string;
+  items: Record<ArtworkId, SessionItemMetric>;
+  phase1CompletedAt?: string | null;
+  phase2?: Phase2Data | null;
+  updatedAt?: string;
+}
+
+export type ScreenState = 'consent' | 'survey' | 'code_reveal' | 'feed' | 'completion';
