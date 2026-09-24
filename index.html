@@ -9,6 +9,16 @@
     <meta property="og:description" content="Веб-застосунок для наукового дослідження сприйняття та популяризації мистецтва в соціальних мережах серед підлітків 14–17 років." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <script>
+      // Fix GitHub Pages path resolution: ensure trailing slash so relative assets './assets/...' resolve inside the repo folder
+      (function() {
+        var p = window.location.pathname;
+        if (window.location.hostname.endsWith('github.io') && !p.endsWith('/') && !p.slice(-5).includes('.')) {
+          window.location.replace(p + '/' + window.location.search + window.location.hash);
+        }
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">

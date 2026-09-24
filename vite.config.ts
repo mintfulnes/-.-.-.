@@ -10,15 +10,15 @@ export default defineConfig(() => {
     ? `/${process.env.GITHUB_REPOSITORY.split('/')[1]}/`
     : undefined;
 
-  // Use BASE_URL if explicitly provided, or auto-detect from GitHub Actions, or fallback to root '/'
-  const base = process.env.BASE_URL || repoName || '/';
+  // Use BASE_URL if explicitly provided, or auto-detect from GitHub Actions, or fallback to relative './'
+  const base = process.env.BASE_URL || repoName || './';
 
   return {
     base,
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '.'),
+        '@': path.resolve('.'),
       },
     },
     server: {
