@@ -44,7 +44,7 @@ export const Phase2Screen: React.FC<Phase2ScreenProps> = ({ onSubmit, isSubmitti
         <div className="space-y-2">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAF3EC] text-[#8F4F24] text-xs font-semibold uppercase tracking-wider">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Обов&apos;язковий 2-й етап</span>
+            <span>2-й етап</span>
           </div>
           <h1 className="font-serif text-2xl sm:text-3xl font-bold text-[#1E1A17]">
             Відтворення з пам&apos;яті та враження
@@ -61,12 +61,12 @@ export const Phase2Screen: React.FC<Phase2ScreenProps> = ({ onSubmit, isSubmitti
               <span className="w-5 h-5 rounded-full bg-[#8F4F24] text-white text-xs font-bold flex items-center justify-center shrink-0">
                 1
               </span>
-              <span>Вільне пригадування: які твори чи деталі запам&apos;яталися найбільше? *</span>
+              <span>Вільне пригадування: що вам запам&apos;яталося найбільше? *</span>
             </label>
             <textarea
               value={freeRecallText}
               onChange={(e) => setFreeRecallText(e.target.value)}
-              placeholder="Опишіть сюжети, кольори або образи, що спадають на думку..."
+              placeholder="Опишіть сюжет, колір або образ, що спадає на думку..."
               rows={3}
               required
               className="w-full p-3 rounded-xl border border-[#D9CFC1] bg-[#FAF8F5] text-xs sm:text-sm text-[#2B2724] focus:bg-white focus:ring-2 focus:ring-[#8F4F24]/30 focus:border-[#8F4F24] outline-none"
