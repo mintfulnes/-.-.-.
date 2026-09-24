@@ -4,6 +4,8 @@ import {
   doc,
   setDoc,
   getDoc,
+  getDocs,
+  collection,
   updateDoc,
   getDocFromServer
 } from 'firebase/firestore';
@@ -54,9 +56,7 @@ export async function testConnection() {
   try {
     await getDocFromServer(doc(db, 'test', 'connection'));
   } catch (error) {
-    if (error instanceof Error && error.message.includes('the client is offline')) {
-      console.warn('Firebase client offline status:', error.message);
-    }
+    console.warn('Firebase initial connectivity check status:', error);
   }
 }
 
@@ -91,3 +91,17 @@ export async function getSessionDoc(sessionId: string) {
     handleFirestoreError(error, OperationType.GET, path);
   }
 }
+
+export async function getAllSessionsDocs() {
+  const path = 'sessions';
+  try {
+    const snap = await getDocs(collection(db, 'sessions'));
+    return snap.docs.map((docSnap) => ({
+      id: docSnap.id,
+      ...docSnap.data()
+    }));
+  } catch (error) {
+    handleFirestoreError(error, OperationType.LIST, path);
+  }
+}
+

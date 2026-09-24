@@ -253,6 +253,7 @@ export default function App() {
           <ConsentScreen
             onStart={() => setScreen('survey')}
             onResumeCode={handleResumeCode}
+            onOpenResearcherModal={() => setIsResearcherModalOpen(true)}
           />
         )}
 

@@ -4,9 +4,14 @@ import { BookOpen, ShieldCheck, Clock, Users, Sparkles, CheckCircle2 } from 'luc
 interface ConsentScreenProps {
   onStart: () => void;
   onResumeCode: (code: string) => void;
+  onOpenResearcherModal?: () => void;
 }
 
-export const ConsentScreen: React.FC<ConsentScreenProps> = ({ onStart, onResumeCode }) => {
+export const ConsentScreen: React.FC<ConsentScreenProps> = ({
+  onStart,
+  onResumeCode,
+  onOpenResearcherModal
+}) => {
   const [agreed, setAgreed] = useState(false);
   const [showResumeInput, setShowResumeInput] = useState(false);
   const [resumeCode, setResumeCode] = useState('');
@@ -138,13 +143,27 @@ export const ConsentScreen: React.FC<ConsentScreenProps> = ({ onStart, onResumeC
       {/* Footer / Resume link */}
       <footer className="pb-4 text-center space-y-3">
         {!showResumeInput ? (
-          <button
-            type="button"
-            onClick={() => setShowResumeInput(true)}
-            className="text-xs sm:text-sm text-[#7F7466] hover:text-[#423A30] underline underline-offset-4 cursor-pointer"
-          >
-            У мене вже є код учасника
-          </button>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-xs sm:text-sm text-[#7F7466]">
+            <button
+              type="button"
+              onClick={() => setShowResumeInput(true)}
+              className="hover:text-[#423A30] underline underline-offset-4 cursor-pointer"
+            >
+              У мене вже є код учасника
+            </button>
+            {onOpenResearcherModal && (
+              <>
+                <span className="hidden sm:inline text-[#CDC3B4]">•</span>
+                <button
+                  type="button"
+                  onClick={onOpenResearcherModal}
+                  className="text-[#8F4F24] hover:text-[#6E3B18] font-medium underline underline-offset-4 cursor-pointer"
+                >
+                  Панель керівника (МАН)
+                </button>
+              </>
+            )}
+          </div>
         ) : (
           <form onSubmit={handleResumeSubmit} className="flex items-center justify-center gap-2 max-w-xs mx-auto">
             <input
