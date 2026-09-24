@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Artwork, ArtworkId, SessionItemMetric } from '../types';
 import { ARTWORKS } from '../data/artworks';
-import { Heart, ChevronDown, CheckCircle2, ZoomIn, X, Info } from 'lucide-react';
+import { Heart, ChevronDown, ArrowRight, ZoomIn, X, Info } from 'lucide-react';
 
 interface FeedFormatAProps {
   order: ArtworkId[];
@@ -20,7 +20,6 @@ export const FeedFormatA: React.FC<FeedFormatAProps> = ({
   const slideRefs = useRef<Record<string, HTMLElement | null>>({});
   const visibleStartTimeRef = useRef<Record<string, number | null>>({});
 
-  // Local state for interactive features
   const [expandedLearnMore, setExpandedLearnMore] = useState<Record<string, boolean>>({});
   const [likes, setLikes] = useState<Record<string, boolean>>(() => {
     const init: Record<string, boolean> = {};
@@ -32,7 +31,14 @@ export const FeedFormatA: React.FC<FeedFormatAProps> = ({
   const [imageModalUrl, setImageModalUrl] = useState<{ src: string; title: string } | null>(null);
   const [imageLoadErrors, setImageLoadErrors] = useState<Record<string, boolean>>({});
 
-  // Commit dwell time for a specific artwork
+  // Ensure scroll is at the top on mount
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    if (containerRef.current) {
+      containerRef.current.scrollTop = 0;
+    }
+  }, []);
+
   const recordDwellTimeDelta = useCallback(
     (id: ArtworkId) => {
       const startTime = visibleStartTimeRef.current[id];
@@ -50,7 +56,6 @@ export const FeedFormatA: React.FC<FeedFormatAProps> = ({
     [onUpdateItemMetric]
   );
 
-  // Intersection Observer to track dwell time
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -59,19 +64,15 @@ export const FeedFormatA: React.FC<FeedFormatAProps> = ({
           if (!id) return;
 
           if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
-            // Started viewing
             if (!visibleStartTimeRef.current[id]) {
               visibleStartTimeRef.current[id] = Date.now();
             }
           } else {
-            // Left viewport
             recordDwellTimeDelta(id);
           }
         });
       },
-      {
-        threshold: 0.5
-      }
+      { threshold: 0.5 }
     );
 
     order.forEach((id) => {
@@ -80,7 +81,6 @@ export const FeedFormatA: React.FC<FeedFormatAProps> = ({
     });
 
     return () => {
-      // Flush active viewing times on unmount
       order.forEach((id) => {
         recordDwellTimeDelta(id);
       });
@@ -88,13 +88,10 @@ export const FeedFormatA: React.FC<FeedFormatAProps> = ({
     };
   }, [order, recordDwellTimeDelta]);
 
-  // Handle Like Toggle
   const handleToggleLike = (id: ArtworkId) => {
     const newLiked = !likes[id];
     const nowIso = new Date().toISOString();
-
     setLikes((prev) => ({ ...prev, [id]: newLiked }));
-
     onUpdateItemMetric(id, (prev) => ({
       ...prev,
       liked: newLiked,
@@ -102,12 +99,10 @@ export const FeedFormatA: React.FC<FeedFormatAProps> = ({
     }));
   };
 
-  // Handle Learn More Click
   const handleToggleLearnMore = (id: ArtworkId) => {
     const isCurrentlyExpanded = expandedLearnMore[id];
     setExpandedLearnMore((prev) => ({ ...prev, [id]: !isCurrentlyExpanded }));
 
-    // Record first click event if not already clicked
     const currentMetric = initialItems[id];
     if (!currentMetric?.learnMoreClicked) {
       const nowIso = new Date().toISOString();
@@ -120,7 +115,6 @@ export const FeedFormatA: React.FC<FeedFormatAProps> = ({
   };
 
   const handleFinish = () => {
-    // Flush current dwell times
     order.forEach((id) => {
       recordDwellTimeDelta(id);
     });
@@ -148,21 +142,21 @@ export const FeedFormatA: React.FC<FeedFormatAProps> = ({
             }}
             className="h-[100dvh] w-full snap-start snap-always relative flex flex-col justify-between p-4 sm:p-8 md:p-10 border-b border-[#EBE4D8] overflow-y-auto"
           >
-            {/* Top Bar: Progress & Gallery Label */}
+            {/* Top Bar */}
             <div className="w-full max-w-4xl mx-auto flex items-center justify-between py-2 text-xs sm:text-sm text-[#7D7060] font-medium border-b border-[#EBE4D8]">
               <span className="uppercase tracking-widest text-[11px] font-semibold text-[#8F4F24]">
-                Галерея традиційного формату
+                Традиційний формат
               </span>
               <span className="bg-[#EFE9DF] px-2.5 py-0.5 rounded-full text-xs font-bold text-[#5A4C3D]">
                 Твір {index + 1} з 4
               </span>
             </div>
 
-            {/* Central Content Layout */}
-            <div className="w-full max-w-4xl mx-auto my-auto py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-              {/* Artwork Visual */}
+            {/* Central Content */}
+            <div className="w-full max-w-4xl mx-auto my-auto py-3 grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+              {/* Artwork Image */}
               <div className="md:col-span-6 flex flex-col items-center justify-center">
-                <div className="relative group w-full max-h-[46vh] sm:max-h-[52vh] flex items-center justify-center bg-[#F0EBE1] rounded-2xl p-2 sm:p-3 border border-[#E0D8CB] shadow-xs overflow-hidden">
+                <div className="relative group w-full max-h-[44vh] sm:max-h-[50vh] flex items-center justify-center bg-[#F0EBE1] rounded-2xl p-2 sm:p-3 border border-[#E0D8CB] shadow-xs overflow-hidden">
                   <img
                     src={displayImageSrc}
                     alt={artwork.title}
@@ -171,39 +165,34 @@ export const FeedFormatA: React.FC<FeedFormatAProps> = ({
                         setImageLoadErrors((prev) => ({ ...prev, [id]: true }));
                       }
                     }}
-                    className="max-h-[42vh] sm:max-h-[48vh] w-auto max-w-full object-contain rounded-xl shadow-xs transition-transform duration-300 group-hover:scale-[1.01]"
+                    className="max-h-[40vh] sm:max-h-[46vh] w-auto max-w-full object-contain rounded-xl shadow-xs transition-transform duration-300 group-hover:scale-[1.01]"
                   />
-                  {/* Zoom full view trigger */}
                   <button
                     type="button"
                     onClick={() => setImageModalUrl({ src: displayImageSrc, title: artwork.title })}
-                    className="absolute bottom-4 right-4 bg-white/90 hover:bg-white text-[#2B2724] p-2 rounded-xl shadow-md backdrop-blur-xs transition-all opacity-90 hover:opacity-100 cursor-pointer"
+                    className="absolute bottom-4 right-4 bg-white/90 hover:bg-white text-[#2B2724] p-2 rounded-xl shadow-md backdrop-blur-xs transition-all cursor-pointer"
                     title="Збільшити твір"
                   >
                     <ZoomIn className="w-4 h-4" />
                   </button>
                 </div>
-                <div className="text-[11px] text-[#8C8071] mt-2 italic text-center">
-                  Натисніть на іконку лупи для перегляду у високій якості
-                </div>
               </div>
 
               {/* Artwork Info & Controls */}
-              <div className="md:col-span-6 flex flex-col justify-center space-y-4">
+              <div className="md:col-span-6 flex flex-col justify-center space-y-3.5">
                 <div>
-                  <div className="text-xs font-semibold uppercase tracking-wider text-[#9A7D60] mb-1">
+                  <div className="text-xs font-semibold uppercase tracking-wider text-[#9A7D60] mb-0.5">
                     {artwork.genre}
                   </div>
-                  <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#1F1B18] leading-tight">
+                  <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#1F1B18] leading-tight">
                     {artwork.title}
                   </h2>
-                  <div className="text-sm sm:text-base text-[#6E6152] font-medium mt-1">
+                  <div className="text-xs sm:text-sm text-[#6E6152] font-medium mt-0.5">
                     {artwork.author}, <span className="text-[#8F4F24] font-semibold">{artwork.year}</span>
                   </div>
                 </div>
 
-                {/* Primary Description */}
-                <div className="text-xs sm:text-sm text-[#3E372F] leading-relaxed bg-white/70 p-4 rounded-xl border border-[#E9E2D5] shadow-xs">
+                <div className="text-xs sm:text-sm text-[#3E372F] leading-relaxed bg-white/70 p-3.5 rounded-xl border border-[#E9E2D5] shadow-xs">
                   {artwork.description}
                 </div>
 
@@ -212,9 +201,9 @@ export const FeedFormatA: React.FC<FeedFormatAProps> = ({
                   <button
                     type="button"
                     onClick={() => handleToggleLearnMore(id)}
-                    className="w-full p-3.5 flex items-center justify-between text-xs sm:text-sm font-semibold text-[#8F4F24] hover:bg-[#FAF6F0] transition-colors cursor-pointer"
+                    className="w-full p-3 flex items-center justify-between text-xs sm:text-sm font-semibold text-[#8F4F24] hover:bg-[#FAF6F0] transition-colors cursor-pointer"
                   >
-                    <span className="flex items-center gap-2">
+                    <span className="flex items-center gap-1.5">
                       <Info className="w-4 h-4" />
                       {isLearnMoreOpen ? 'Згорнути додаткову інформацію' : 'Дізнатися більше про твір'}
                     </span>
@@ -226,18 +215,18 @@ export const FeedFormatA: React.FC<FeedFormatAProps> = ({
                   </button>
 
                   {isLearnMoreOpen && (
-                    <div className="px-4 pb-4 pt-1 text-xs sm:text-sm text-[#4E443A] leading-relaxed border-t border-[#F0EAE0] bg-[#FCFBF8]">
+                    <div className="px-3.5 pb-3.5 pt-1 text-xs text-[#4E443A] leading-relaxed border-t border-[#F0EAE0] bg-[#FCFBF8]">
                       {artwork.learnMore}
                     </div>
                   )}
                 </div>
 
                 {/* Like Button */}
-                <div className="pt-1 flex items-center gap-3">
+                <div className="pt-0.5 flex items-center gap-3">
                   <button
                     type="button"
                     onClick={() => handleToggleLike(id)}
-                    className={`inline-flex items-center gap-2.5 px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer shadow-xs ${
+                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 cursor-pointer shadow-xs ${
                       isLiked
                         ? 'bg-rose-50 text-rose-700 border border-rose-200'
                         : 'bg-white text-[#564B3E] border border-[#DDD4C7] hover:border-[#BFB1A0]'
@@ -248,10 +237,10 @@ export const FeedFormatA: React.FC<FeedFormatAProps> = ({
                         isLiked ? 'fill-rose-600 text-rose-600 scale-110' : 'text-[#827464]'
                       }`}
                     />
-                    <span>{isLiked ? 'Подобається' : 'Подобається'}</span>
+                    <span>Подобається</span>
                   </button>
-                  <span className="text-xs text-[#8F8171]">
-                    {isLiked ? 'Ваш голос враховано' : 'Натисніть сердечко, якщо твір сподобався'}
+                  <span className="text-[11px] text-[#8F8171]">
+                    {isLiked ? 'Вподобано' : 'Натисніть сердечко, якщо твір сподобався'}
                   </span>
                 </div>
               </div>
@@ -259,34 +248,31 @@ export const FeedFormatA: React.FC<FeedFormatAProps> = ({
 
             {/* Bottom scroll hint */}
             <div className="w-full text-center text-xs text-[#9E9283] py-2">
-              {index < order.length - 1 ? 'Гортайте вниз до наступного твору ↓' : 'Гортайте вниз для завершення ↓'}
+              {index < order.length - 1 ? 'Гортайте вниз до наступного твору ↓' : 'Гортайте вниз для переходу до 2 етапу ↓'}
             </div>
           </section>
         );
       })}
 
-      {/* Final Slide: Finish Screen */}
+      {/* Transition slide to Phase 2 (NO early thank-you) */}
       <section className="h-[100dvh] w-full snap-start snap-always flex flex-col justify-center items-center p-6 text-center bg-[#FAF7F2]">
         <div className="max-w-md w-full bg-white border border-[#E5DDD0] rounded-3xl p-8 sm:p-10 shadow-sm space-y-6">
-          <div className="w-14 h-14 rounded-full bg-[#F3EBE0] text-[#8F4F24] flex items-center justify-center mx-auto">
-            <CheckCircle2 className="w-8 h-8" />
-          </div>
-
           <div className="space-y-2">
             <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#1E1A17]">
-              Дякуємо, це були всі 4 твори!
+              Ви переглянули всі 4 картини
             </h2>
             <p className="text-sm text-[#6C6053] leading-relaxed">
-              Ви переглянули всі роботи експериментальної виставки. Тепер можна зафіксувати результати першого етапу.
+              Тепер перейдімо до обов&apos;язкового другого етапу — коротких запитань про ваші враження та пригадування деталей.
             </p>
           </div>
 
           <button
             type="button"
             onClick={handleFinish}
-            className="w-full py-4 px-6 rounded-xl font-medium text-base bg-[#8F4F24] hover:bg-[#783F1A] text-white transition-all duration-200 shadow-sm cursor-pointer active:scale-[0.99]"
+            className="w-full py-4 px-6 rounded-xl font-medium text-base bg-[#8F4F24] hover:bg-[#783F1A] text-white transition-all duration-200 shadow-sm cursor-pointer flex items-center justify-center gap-2 active:scale-[0.99]"
           >
-            Завершити
+            <span>Перейти до другого етапу</span>
+            <ArrowRight className="w-4 h-4" />
           </button>
         </div>
       </section>

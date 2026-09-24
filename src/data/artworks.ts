@@ -16,8 +16,7 @@ export const ARTWORKS: Record<ArtworkId, Artwork> = {
       'Брейгель зобразив щонайменше 90 різних приказок на цьому полотні — дослідники й досі сперечаються про точну кількість і тлумачення деяких сцен. Картина належить до ширшої традиції "світу навиворіт", популярного мотиву в нідерландському мистецтві та літературі XVI століття. На відміну від релігійного живопису того часу, ця робота зосереджена на світській, народній мудрості.',
     imageSrc: `${base}media/proverbs.jpg`,
     videoSrc: `${base}media/proverbs.mp4`,
-    fallbackImage:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Pieter_Bruegel_the_Elder_-_The_Dutch_Proverbs_-_Google_Art_Project.jpg/1280px-Pieter_Bruegel_the_Elder_-_The_Dutch_Proverbs_-_Google_Art_Project.jpg',
+    fallbackImage: `${base}proverbs.jpg`,
     genre: 'Провербіальний живопис / Ренесанс'
   },
   haywain: {
@@ -31,8 +30,7 @@ export const ARTWORKS: Record<ArtworkId, Artwork> = {
       'Тріптих продовжує моралізаторську традицію Босха, подібну до "Саду земних насолод". Дослідники відзначають, що серед персонажів, які женуться за возом, зображені представники всіх соціальних верств — від жебраків до папи римського — підкреслюючи, що жадібність не залежить від статусу.',
     imageSrc: `${base}media/haywain.jpg`,
     videoSrc: `${base}media/haywain.mp4`,
-    fallbackImage:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/The_Haywain_Triptych_%28center_panel%29_by_Hieronymus_Bosch.jpg/1024px-The_Haywain_Triptych_%28center_panel%29_by_Hieronymus_Bosch.jpg',
+    fallbackImage: `${base}haywain.jpg`,
     genre: 'Алегоричний живопис / Північне Відродження'
   },
   anatomy: {
@@ -46,8 +44,7 @@ export const ARTWORKS: Record<ArtworkId, Artwork> = {
       'Незвично, що Рембрандт зобразив розтин руки, а не грудної клітини — саме з неї традиційно починали справжні анатомічні демонстрації. Дослідники вважають це художнім рішенням: Рембрандт прагнув створити виразнішу композицію, де обличчя й руки присутніх виражають цікавість і зосередженість.',
     imageSrc: `${base}media/anatomy.jpg`,
     videoSrc: `${base}media/anatomy.mp4`,
-    fallbackImage:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Rembrandt_-_The_Anatomy_Lesson_of_Dr_Nicolaes_Tulp.jpg/1280px-Rembrandt_-_The_Anatomy_Lesson_of_Dr_Nicolaes_Tulp.jpg',
+    fallbackImage: `${base}anatomy.jpg`,
     genre: 'Груповий портрет / Голландське бароко'
   },
   sea: {
@@ -59,10 +56,9 @@ export const ARTWORKS: Record<ArtworkId, Artwork> = {
       'Картина завершує цикл "Соната моря" — серію робіт Чюрльоніса, побудовану за принципом музичної сонати: Алегро, Анданте, Фінал. Полотно зображує величезну хвилю, що нависає над крихітними кораблями, — символ приголомшливої сили природи перед людською тендітністю. Композиція, ймовірно, натхненна гравюрою Хокусая "Велика хвиля в Канагаві". У піні на гребені хвилі художник заховав власні ініціали, складені з бульбашок.',
     learnMore:
       'Чюрльоніс був не лише художником, а й композитором — і саме тому називав свої мистецькі цикли музичними термінами. У 1907 році він написав симфонічну поему "Юра" ("Море"), тематично пов\'язану з цим циклом картин. Помер у бідності 1911 року, у віці 35 років.',
-    imageSrc: `${base}media/sea.jpg`,
+    imageSrc: `${base}media/sea.webp`,
     videoSrc: `${base}media/sea.mp4`,
-    fallbackImage:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Mikalojus_Konstantinas_Ciurlionis_-_Juros_sonata._Finalas_-_1908.jpg/1024px-Mikalojus_Konstantinas_Ciurlionis_-_Juros_sonata._Finalas_-_1908.jpg',
+    fallbackImage: `${base}sea.webp`,
     genre: 'Символізм / Музичний живопис'
   }
 };

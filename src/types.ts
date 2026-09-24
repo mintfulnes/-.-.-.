@@ -28,7 +28,10 @@ export interface SessionItemMetric {
 export interface Phase2Data {
   completedAt: string;
   freeRecall: string;
-  responses: Record<string, string>;
+  responses: {
+    q_haywain_meaning: string;
+    q_impression: string;
+  };
 }
 
 export interface SessionData {
@@ -44,4 +47,4 @@ export interface SessionData {
   updatedAt?: string;
 }
 
-export type ScreenState = 'consent' | 'survey' | 'code_reveal' | 'feed' | 'completion';
+export type ScreenState = 'consent' | 'survey' | 'feed' | 'phase2' | 'completion';

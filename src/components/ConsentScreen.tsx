@@ -1,32 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BookOpen, ShieldCheck, Clock, Users, Sparkles, CheckCircle2 } from 'lucide-react';
 
 interface ConsentScreenProps {
   onStart: () => void;
-  onResumeCode: (code: string) => void;
   onOpenResearcherModal?: () => void;
 }
 
 export const ConsentScreen: React.FC<ConsentScreenProps> = ({
   onStart,
-  onResumeCode,
   onOpenResearcherModal
 }) => {
   const [agreed, setAgreed] = useState(false);
-  const [showResumeInput, setShowResumeInput] = useState(false);
-  const [resumeCode, setResumeCode] = useState('');
 
-  const handleResumeSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (resumeCode.trim().length >= 4) {
-      onResumeCode(resumeCode.trim().toUpperCase());
-    }
-  };
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#FBF9F5] text-[#2B2724] flex flex-col justify-between p-4 sm:p-8 md:p-12 max-w-3xl mx-auto">
       {/* Header */}
-      <header className="pt-4 sm:pt-8 text-center space-y-3">
+      <header className="pt-4 sm:pt-6 text-center space-y-3">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EFE9DF] text-[#6B5E51] text-xs sm:text-sm font-medium tracking-wide">
           <Sparkles className="w-3.5 h-3.5 text-[#A46338]" />
           <span>Шкільне наукове дослідження (МАН)</span>
@@ -40,9 +33,9 @@ export const ConsentScreen: React.FC<ConsentScreenProps> = ({
       </header>
 
       {/* Main Content Card */}
-      <main className="my-6 sm:my-8 bg-white/80 backdrop-blur-sm border border-[#E8E2D8] rounded-2xl p-5 sm:p-8 shadow-sm space-y-6">
+      <main className="my-6 bg-white/90 backdrop-blur-sm border border-[#E8E2D8] rounded-2xl p-5 sm:p-8 shadow-xs space-y-6">
         {/* Info Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div className="flex items-start gap-3 p-3.5 rounded-xl bg-[#FAF7F2] border border-[#EFECE5]">
             <Clock className="w-5 h-5 text-[#A46338] shrink-0 mt-0.5" />
             <div>
@@ -63,24 +56,24 @@ export const ConsentScreen: React.FC<ConsentScreenProps> = ({
             <ShieldCheck className="w-5 h-5 text-[#A46338] shrink-0 mt-0.5" />
             <div>
               <div className="text-xs text-[#8A7E72] uppercase font-semibold tracking-wider">Анонімність</div>
-              <div className="text-sm font-medium text-[#2B2724]">Без логіну й пошти</div>
+              <div className="text-sm font-medium text-[#2B2724]">Без реєстрації та пошти</div>
             </div>
           </div>
         </div>
 
-        {/* What to expect */}
-        <div className="space-y-3 pt-2">
-          <h2 className="text-base font-semibold text-[#1F1C1A] flex items-center gap-2">
+        {/* Steps overview */}
+        <div className="space-y-3 pt-1">
+          <h2 className="text-sm sm:text-base font-semibold text-[#1F1C1A] flex items-center gap-2">
             <BookOpen className="w-4 h-4 text-[#A46338]" />
-            Що відбуватиметься під час дослідження:
+            Етапи проходження:
           </h2>
-          <ol className="space-y-2.5 text-sm text-[#4E463E] list-none">
+          <ol className="space-y-2 text-xs sm:text-sm text-[#4E463E] list-none">
             <li className="flex items-start gap-2.5">
               <span className="flex items-center justify-center w-5 h-5 rounded-full bg-[#EAE3D6] text-[#645344] text-xs font-bold shrink-0 mt-0.5">
                 1
               </span>
               <span>
-                <strong>Вхідне анкетування (10 запитань)</strong> про ваші щоденні звички споживання контенту та мистецтва в Instagram, TikTok, Pinterest тощо.
+                <strong>Вхідне опитування (10 запитань)</strong> про ваш досвід перегляду мистецтва в соцмережах.
               </span>
             </li>
             <li className="flex items-start gap-2.5">
@@ -88,7 +81,7 @@ export const ConsentScreen: React.FC<ConsentScreenProps> = ({
                 2
               </span>
               <span>
-                <strong>Генерація персонального коду</strong> та випадковий розподіл в один із двох експериментальних форматів показу картин.
+                <strong>Перегляд 4 картин</strong> у спеціальному форматі виставки.
               </span>
             </li>
             <li className="flex items-start gap-2.5">
@@ -96,39 +89,37 @@ export const ConsentScreen: React.FC<ConsentScreenProps> = ({
                 3
               </span>
               <span>
-                <strong>Перегляд 4 видатних творів мистецтва</strong> у призначеному форматі так, як ви зазвичай переглядаєте стрічку.
+                <strong>Короткий другий етап</strong> для фіксації ваших безпосередніх вражень.
               </span>
             </li>
           </ol>
         </div>
 
-        {/* Anonymity note */}
-        <div className="p-3.5 rounded-xl bg-[#F6F2EB] border border-[#E9E1D4] text-xs sm:text-sm text-[#5D5246] leading-relaxed">
-          <p>
-            Усі отримані дані є суворо конфіденційними, використовуються виключно в узагальненому вигляді для наукових цілей і зберігаються у захищеній хмарній базі даних під випадковим кодом сесії.
-          </p>
+        {/* Privacy note */}
+        <div className="p-3.5 rounded-xl bg-[#F6F2EB] border border-[#E9E1D4] text-xs text-[#5D5246] leading-relaxed">
+          Усі відповіді анонімні й використовуються виключно в узагальненому вигляді для наукового аналізу.
         </div>
 
         {/* Consent Checkbox */}
-        <label className="flex items-start gap-3 p-3 rounded-xl border border-transparent hover:border-[#D6CCC0] cursor-pointer transition-colors select-none">
+        <label className="flex items-start gap-3 p-2 rounded-xl cursor-pointer select-none">
           <input
             type="checkbox"
             checked={agreed}
             onChange={(e) => setAgreed(e.target.checked)}
-            className="w-5 h-5 mt-0.5 rounded border-[#C8BEB0] text-[#A46338] focus:ring-[#A46338] cursor-pointer"
+            className="w-5 h-5 mt-0.5 rounded border-[#C8BEB0] text-[#8F4F24] focus:ring-[#8F4F24] cursor-pointer"
           />
-          <span className="text-sm font-medium text-[#2B2724]">
+          <span className="text-xs sm:text-sm font-medium text-[#2B2724] leading-snug">
             Я погоджуюся взяти участь у дослідженні, підтверджую свій вік (14–17 років) та даю згоду на анонімну обробку моїх відповідей для наукової роботи.
           </span>
         </label>
 
         {/* Action Button */}
-        <div className="pt-2">
+        <div>
           <button
             type="button"
             onClick={onStart}
             disabled={!agreed}
-            className={`w-full py-3.5 px-6 rounded-xl font-medium text-base transition-all duration-200 flex items-center justify-center gap-2 shadow-sm ${
+            className={`w-full py-4 px-6 rounded-xl font-medium text-base transition-all duration-200 flex items-center justify-center gap-2 shadow-sm ${
               agreed
                 ? 'bg-[#8F4F24] hover:bg-[#783F1A] text-white active:scale-[0.99] cursor-pointer'
                 : 'bg-[#E3DCD1] text-[#9A8F82] cursor-not-allowed'
@@ -140,54 +131,16 @@ export const ConsentScreen: React.FC<ConsentScreenProps> = ({
         </div>
       </main>
 
-      {/* Footer / Resume link */}
-      <footer className="pb-4 text-center space-y-3">
-        {!showResumeInput ? (
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-xs sm:text-sm text-[#7F7466]">
-            <button
-              type="button"
-              onClick={() => setShowResumeInput(true)}
-              className="hover:text-[#423A30] underline underline-offset-4 cursor-pointer"
-            >
-              У мене вже є код учасника
-            </button>
-            {onOpenResearcherModal && (
-              <>
-                <span className="hidden sm:inline text-[#CDC3B4]">•</span>
-                <button
-                  type="button"
-                  onClick={onOpenResearcherModal}
-                  className="text-[#8F4F24] hover:text-[#6E3B18] font-medium underline underline-offset-4 cursor-pointer"
-                >
-                  Панель керівника (МАН)
-                </button>
-              </>
-            )}
-          </div>
-        ) : (
-          <form onSubmit={handleResumeSubmit} className="flex items-center justify-center gap-2 max-w-xs mx-auto">
-            <input
-              type="text"
-              value={resumeCode}
-              onChange={(e) => setResumeCode(e.target.value.toUpperCase())}
-              placeholder="Код (6 знаків)"
-              maxLength={8}
-              className="px-3 py-1.5 text-sm bg-white border border-[#D5CCC0] rounded-lg text-center uppercase tracking-widest font-mono text-[#2B2724]"
-            />
-            <button
-              type="submit"
-              className="px-3 py-1.5 text-xs bg-[#5F5244] text-white rounded-lg hover:bg-[#4A3F34]"
-            >
-              Знайти
-            </button>
-            <button
-              type="button"
-              onClick={() => setShowResumeInput(false)}
-              className="px-2 py-1.5 text-xs text-[#8A7E72] hover:text-[#423A30]"
-            >
-              Скасувати
-            </button>
-          </form>
+      {/* Footer */}
+      <footer className="pb-4 text-center">
+        {onOpenResearcherModal && (
+          <button
+            type="button"
+            onClick={onOpenResearcherModal}
+            className="text-xs text-[#8F7F6E] hover:text-[#3B3227] underline underline-offset-4 cursor-pointer"
+          >
+            Панель керівника (МАН)
+          </button>
         )}
       </footer>
     </div>
