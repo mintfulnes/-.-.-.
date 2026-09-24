@@ -22,13 +22,13 @@ export const ConsentScreen: React.FC<ConsentScreenProps> = ({
       <header className="pt-4 sm:pt-6 text-center space-y-3">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EFE9DF] text-[#6B5E51] text-xs sm:text-sm font-medium tracking-wide">
           <Sparkles className="w-3.5 h-3.5 text-[#A46338]" />
-          <span>Шкільне наукове дослідження (МАН)</span>
+          <span>наукове дослідження (МАН)</span>
         </div>
         <h1 className="font-serif text-2xl sm:text-3xl md:text-4xl text-[#1E1A17] leading-tight font-bold tracking-tight">
           Мистецтво в соціальних мережах: трансформація способів сприйняття та популяризації
         </h1>
         <p className="text-sm sm:text-base text-[#6B6258] max-w-xl mx-auto leading-relaxed">
-          Науково-дослідницька робота про те, як цифрові платформи та сучасні відеоформати змінюють сприйняття класичного мистецтва сучасними підлітками.
+          Науково-дослідницька робота про те, як цифрові платформи та сучасні відеоформати змінюють сприйняття мистецтва.
         </p>
       </header>
 
@@ -40,7 +40,7 @@ export const ConsentScreen: React.FC<ConsentScreenProps> = ({
             <Clock className="w-5 h-5 text-[#A46338] shrink-0 mt-0.5" />
             <div>
               <div className="text-xs text-[#8A7E72] uppercase font-semibold tracking-wider">Тривалість</div>
-              <div className="text-sm font-medium text-[#2B2724]">10–12 хвилин</div>
+              <div className="text-sm font-medium text-[#2B2724]">8–12 хвилин</div>
             </div>
           </div>
 
