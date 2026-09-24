@@ -17,6 +17,7 @@ export const ARTWORKS: Record<ArtworkId, Artwork> = {
     imageSrc: `${base}media/proverbs.jpg`,
     videoSrc: `${base}media/proverbs.mp4`,
     fallbackImage: `${base}proverbs.jpg`,
+    remoteFallback: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Pieter_Bruegel_the_Elder_-_The_Dutch_Proverbs_-_Google_Art_Project.jpg/1280px-Pieter_Bruegel_the_Elder_-_The_Dutch_Proverbs_-_Google_Art_Project.jpg',
     genre: 'Провербіальний живопис / Ренесанс'
   },
   haywain: {
@@ -31,6 +32,7 @@ export const ARTWORKS: Record<ArtworkId, Artwork> = {
     imageSrc: `${base}media/haywain.jpg`,
     videoSrc: `${base}media/haywain.mp4`,
     fallbackImage: `${base}haywain.jpg`,
+    remoteFallback: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1d/Bosch_-_Haywain_Triptych.jpg/1280px-Bosch_-_Haywain_Triptych.jpg',
     genre: 'Алегоричний живопис / Північне Відродження'
   },
   anatomy: {
@@ -45,6 +47,7 @@ export const ARTWORKS: Record<ArtworkId, Artwork> = {
     imageSrc: `${base}media/anatomy.jpg`,
     videoSrc: `${base}media/anatomy.mp4`,
     fallbackImage: `${base}anatomy.jpg`,
+    remoteFallback: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Rembrandt_-_The_Anatomy_Lesson_of_Dr_Nicolaes_Tulp.jpg/1280px-Rembrandt_-_The_Anatomy_Lesson_of_Dr_Nicolaes_Tulp.jpg',
     genre: 'Груповий портрет / Голландське бароко'
   },
   sea: {
@@ -59,6 +62,7 @@ export const ARTWORKS: Record<ArtworkId, Artwork> = {
     imageSrc: `${base}media/sea.webp`,
     videoSrc: `${base}media/sea.mp4`,
     fallbackImage: `${base}sea.webp`,
+    remoteFallback: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Mikalojus_Konstantinas_Ciurlionis_-_Juros_sonata._Finalas_-_1908.jpg/1024px-Mikalojus_Konstantinas_Ciurlionis_-_Juros_sonata._Finalas_-_1908.jpg',
     genre: 'Символізм / Музичний живопис'
   }
 };

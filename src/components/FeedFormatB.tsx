@@ -274,21 +274,38 @@ export const FeedFormatB: React.FC<FeedFormatBProps> = ({
           >
             {/* Visual presentation */}
             {!hasVideoError ? (
-              <video
-                ref={(el) => {
-                  videoRefs.current[id] = el;
-                }}
-                src={artwork.videoSrc}
-                playsInline
-                loop
-                autoPlay
-                muted={isMuted}
-                onTimeUpdate={(e) => handleTimeUpdate(id, e)}
-                onError={() => {
-                  setVideoErrors((prev) => ({ ...prev, [id]: true }));
-                }}
-                className="w-full h-full object-cover sm:object-contain sm:max-w-md mx-auto"
-              />
+              <div className="relative w-full h-full flex items-center justify-center">
+                <video
+                  ref={(el) => {
+                    videoRefs.current[id] = el;
+                  }}
+                  src={artwork.videoSrc}
+                  playsInline
+                  loop
+                  autoPlay
+                  muted={isMuted}
+                  preload="auto"
+                  onTimeUpdate={(e) => handleTimeUpdate(id, e)}
+                  onPlay={() => setIsPlayingMap((prev) => ({ ...prev, [id]: true }))}
+                  onPause={() => setIsPlayingMap((prev) => ({ ...prev, [id]: false }))}
+                  onError={(e) => {
+                    console.warn('Video error for artwork:', id, e);
+                    setVideoErrors((prev) => ({ ...prev, [id]: true }));
+                  }}
+                  className="w-full h-full object-cover sm:object-contain sm:max-w-md mx-auto"
+                >
+                  <source src={artwork.videoSrc} type="video/mp4" />
+                </video>
+
+                {/* Center Play Icon when paused */}
+                {!isPlaying && (
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="w-16 h-16 rounded-full bg-black/50 backdrop-blur-xs flex items-center justify-center text-white/90 shadow-2xl">
+                      <Play className="w-8 h-8 fill-white ml-1" />
+                    </div>
+                  </div>
+                )}
+              </div>
             ) : (
               /* Polished cinematic Reels image presentation with dynamic motion */
               <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
@@ -300,6 +317,8 @@ export const FeedFormatB: React.FC<FeedFormatBProps> = ({
                     const target = e.currentTarget;
                     if (target.src !== artwork.fallbackImage) {
                       target.src = artwork.fallbackImage;
+                    } else if (artwork.remoteFallback && target.src !== artwork.remoteFallback) {
+                      target.src = artwork.remoteFallback;
                     }
                   }}
                   className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-125"
@@ -316,6 +335,8 @@ export const FeedFormatB: React.FC<FeedFormatBProps> = ({
                         const target = e.currentTarget;
                         if (target.src !== artwork.fallbackImage) {
                           target.src = artwork.fallbackImage;
+                        } else if (artwork.remoteFallback && target.src !== artwork.remoteFallback) {
+                          target.src = artwork.remoteFallback;
                         }
                       }}
                       className={`w-full h-full object-contain transition-transform duration-1000 ease-out ${

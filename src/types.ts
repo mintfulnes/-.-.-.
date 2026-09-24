@@ -10,6 +10,7 @@ export interface Artwork {
   imageSrc: string;
   videoSrc: string;
   fallbackImage: string;
+  remoteFallback?: string;
   aspectRatio?: string;
   genre: string;
 }

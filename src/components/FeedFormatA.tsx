@@ -160,9 +160,12 @@ export const FeedFormatA: React.FC<FeedFormatAProps> = ({
                   <img
                     src={displayImageSrc}
                     alt={artwork.title}
-                    onError={() => {
+                    onError={(e) => {
+                      const target = e.currentTarget;
                       if (!hasError) {
                         setImageLoadErrors((prev) => ({ ...prev, [id]: true }));
+                      } else if (artwork.remoteFallback && target.src !== artwork.remoteFallback) {
+                        target.src = artwork.remoteFallback;
                       }
                     }}
                     className="max-h-[40vh] sm:max-h-[46vh] w-auto max-w-full object-contain rounded-xl shadow-xs transition-transform duration-300 group-hover:scale-[1.01]"
